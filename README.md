@@ -1,2 +1,2 @@
 # 2D-Physics
-simple 2d physics engine using pygame
+simple 2d physics (with circles for now) using pygame
