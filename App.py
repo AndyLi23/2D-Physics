@@ -22,7 +22,7 @@ def find(particles, x, y):
 # constants
 gravity = (math.pi, 0.1)
 drag = 0.999
-elasticity = 0.75
+elasticity = 0.8
 
 
 class Particle:
@@ -68,7 +68,7 @@ class Particle:
             self.y = 2 * (height - self.size) - self.y
             self.angle = math.pi - self.angle
             self.speed *= elasticity
-            if self.speed < 0.8:
+            if self.speed < 0.9:
                 self.speed = 0  # clamp down to prevent infinite bouncing
 
     def collide(self, p2):
@@ -77,7 +77,15 @@ class Particle:
 
         distance = math.hypot(dx, dy)
         if distance < self.size + p2.size:
-            print('Bang!')
+            tan = math.atan2(dy, dx)
+            self.angle = 2 * tan - self.angle
+            p2.angle = 2 * tan - p2.angle
+            self.speed, p2.speed = p2.speed*elasticity, self.speed*elasticity
+            angle = 0.5 * math.pi + tan
+            self.x += math.sin(angle)
+            self.y -= math.cos(angle)
+            p2.x -= math.sin(angle)
+            p2.y += math.cos(angle)
 
 
 class Game:
@@ -124,7 +132,11 @@ class Game:
                 keys = pygame.key.get_pressed()
                 if keys[K_SPACE]:
                     for i in circles:
-                        i.speed, i.angle = random()*10, uniform(0, math.pi*2)
+                        i.speed = i.speed + random()*10
+                if keys[K_a]:
+                    for i in circles:
+                        i.speed = i.speed + random()*10
+                        i.angle = uniform(0, math.pi*2)
 
             # refresh screen
             self.screen.fill((200, 200, 200))
