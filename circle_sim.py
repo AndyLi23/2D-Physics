@@ -90,7 +90,7 @@ class Particle:
             self.speed *= elasticity
             p2.speed *= elasticity
 
-            overlap = 0.5 * (self.size + p2.size - distance + 1)
+            overlap = 0.5*(self.size + p2.size - distance + 1)
             self.x += math.sin(angle) * overlap
             self.y -= math.cos(angle) * overlap
             p2.x -= math.sin(angle) * overlap
@@ -117,7 +117,7 @@ class Game:
             density = randint(1, 20)
             size = randint(20, 40)
             circles.append(
-                Particle((randint(0, self.width), randint(0, self.height)), randint(20, 40), random()*30, uniform(0, math.pi*2), size ** 2 * density, (density * 5, density * 5, density * 5)))
+                Particle((randint(0, self.width), randint(0, self.height)), randint(20, 40), random()*30, uniform(0, math.pi*2), size ** 2 * density, (100-(density * 5), 100-(density * 5), 100-(density * 5))))
 
         while not self.exit:
             for event in pygame.event.get():
